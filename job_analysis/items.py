@@ -11,6 +11,8 @@ import scrapy
 class JobAnalysisItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    # 职位
+    job_name = scrapy.Field()
     # 工资
     salary = scrapy.Field()
     # 招聘公司

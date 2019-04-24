@@ -13,3 +13,5 @@ https://www.lagou.com/zhaopin/Java/1
 1. conda install scrapy requests
 
 2. 免费代理查找https://www.xicidaili.com/
+
+3. 获取代理的接口http://api.faceme.site/proxy/

@@ -38,6 +38,8 @@ class ZhiLianSpider(scrapy.Spider):
         results = data['results']
         for each in results:
             item = JobAnalysisItem()
+            # 职位
+            item['job_name'] = each['jobName']
             # 工资
             item['salary'] = each['salary']
             # 招聘公司

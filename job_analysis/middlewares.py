@@ -4,9 +4,10 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-from random import choice
 
 from scrapy import signals
+
+from job_analysis.my_proxy import MyProxy
 
 
 class JobAnalysisSpiderMiddleware(object):
@@ -57,19 +58,15 @@ class JobAnalysisSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class JobAnalysisDownloaderMiddleware(object):
+class JobAnalysisDownloaderMiddleware(MyProxy, object):
+    def __init__(self) -> None:
+        self.http_proxy = self.round_http_proxy()
+        self.https_proxy = self.round_https_proxy()
+        super().__init__()
+
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
-
-    proxy = [
-        # '113.65.5.162:9000',
-        # '112.85.173.183:9999',
-        # '183.30.204.196:9999',
-        # '121.69.46.178:9000',
-        # '113.65.5.162:9000',
-        '60.217.153.100:8060'
-    ]
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -88,18 +85,11 @@ class JobAnalysisDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
-        # APIKEY = 'f95f08afc952c034cc2ff9c5548d51be'
-        # url = 'https://www.proxicity.io/api/v1/{}/proxy'.format(APIKEY)  # 在线API接口
-        # r = requests.get(url)
-        #
-        # request.meta['proxy'] = r.json()['curl']  # 协议://IP地址:端口（如 http://5.39.85.100:30059）
-        # def process_request(self, request, spider):
-        ip = choice(JobAnalysisDownloaderMiddleware.proxy)
-        request.meta['proxy'] = 'https://' + ip
-        # if request.url.startswith("http://"):
-        #     request.meta['proxy'] = "http://112.85.173.183:9999"  # http代理
-        # elif request.url.startswith("https://"):
-        #     request.meta['proxy'] = "http://112.85.173.183:9999"  # https代理
+        # print('---------', self.round_http_proxy())
+        if request.url.startswith("http://"):
+            request.meta['proxy'] = 'http://' + self.http_proxy  # http代理
+        elif request.url.startswith("https://"):
+            request.meta['proxy'] = 'https://' + self.https_proxy  # https代理
         return None
 
     def process_response(self, request, response, spider):
