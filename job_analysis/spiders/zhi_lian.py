@@ -27,11 +27,13 @@ class ZhiLianSpider(scrapy.Spider):
         data = json.loads(response.body, encoding='utf-8')['data']
         num_found = data['numFound']
         if ZhiLianSpider.first:
-            for x in range(2, math.floor(num_found / ZhiLianSpider.page_size) + 1, 1):
+            for x in range(2, math.floor(num_found / 20) + 1, 1):
+                with open('./t.text', 'w') as file:
+                    file.write(str(x))
                 ZhiLianSpider.first = False
                 yield scrapy.Request(
                     ZhiLianSpider.base_url + 'start=' + str(
-                        ZhiLianSpider.page_size * x) + ZhiLianSpider.middle_url + ZhiLianSpider.sub_fix,
+                        ZhiLianSpider.page_size + 20 * x) + 'pageSize=20' + ZhiLianSpider.sub_fix,
                     callback=self.parse, dont_filter=True)
         results = data['results']
         for each in results:

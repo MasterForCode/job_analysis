@@ -11,3 +11,5 @@ https://search.51job.com/list/000000,000000,0000,00,9,99,java,2,2.html
 https://www.lagou.com/zhaopin/Java/1
 
 1. conda install scrapy requests
+
+2. 免费代理查找https://www.xicidaili.com/
