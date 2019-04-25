@@ -9,6 +9,7 @@ https://search.51job.com/list/000000,000000,0000,00,9,99,java,2,2.html
 
 # 拉钩
 https://www.lagou.com/zhaopin/Java/1
+0. 环境：conda install scrapy requests matplotlib pandas
 
 1. conda install scrapy requests
 
